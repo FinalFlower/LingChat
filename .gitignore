@@ -8,15 +8,10 @@ Thumbs.db
 # 忽略日志文件
 *.log
 logs/
-# 本地启动脚本（开发者自用）
-run_backend.py
 # 忽略配置文件和敏感信息
 .env
 .env.*
 !.env.example
-
-
-
 
 # ============================================================
 #      IDE 和编辑器配置 (IDE & Editor Configuration)
@@ -52,9 +47,10 @@ site/
 .coverage
 coverage.*
 htmlcov/
-
-
-
+ling_chat/
+ling_chat/*
+ling_chat_python/
+ling_chat_pal/
 
 # ============================================================
 #   前端和通用构建产物 (Frontend & General Build Artifacts)
@@ -63,22 +59,42 @@ htmlcov/
 node_modules/
 build/
 dist/
+target/
+
 ling_chat/static/frontend/
+# Tauri auto-generated files
+# src-tauri/gen/android/ 已取消忽略（通过下级 .gitignore 控制具体排除项）
+# src-tauri/gen/schemas/ 为 JSON schema 自动生成文件，可追踪
+src-tauri/bundled_resources/
+src-tauri/.bundled_resources/
+~/.tauri/
+frontend_vue/
+.tsbuildinfo
+src-tauri/gen/android/app/src/main/assets/
+# Tauri 自动生成的图标
+src-tauri/icons/*.png
+src-tauri/icons/*.icns
+src-tauri/icons/*.ico
+src-tauri/icons/ios/*.png
 
+# 保留源图标
+!src-tauri/icons/icon.png
+!src-tauri/icons/icon.icns
+!src-tauri/icons/icon.ico
 
+# Android 自动生成的资源
+src-tauri/gen/android/app/src/main/assets/
+src-tauri/gen/android/app/src/main/res/mipmap-*/ic_launcher*.png
 
+**/.cargo/**
 
 # ============================================================
 #          特定项目文件 (Project Specific Files)
 # ============================================================
 
 # 用户数据文件
-data/*
 # 数据库、聊天记录和本地数据存储
-chat_system.db
-chroma_db_store/
-rag_chat_history/
-browser_data/
+game_data.db
 # 大模型文件和本地缓存，这些文件过大很大
 models/
 embedding_models/
@@ -88,14 +104,11 @@ Pytorch/RAG/embedding_models/
 *.data
 # 发布产物
 release/
+data_manifest.json
 
 emotion_labels.csv
 ling_chat/third_party/emotion_model/*
 ling_chat/third_party/emotion_model_19emo/*
-
-# LLM 配置文件（含密钥，首次启动自动从 .env 重建）
-ling_chat/configs/llm_configs/
-src-tauri/
 
 
 # ============================================================
@@ -103,20 +116,53 @@ src-tauri/
 # ============================================================
 # 规则：默认忽略开发中的资源，但保留部分确定要使用的文件
 
-# 忽略 data 目录下的 voice 文件夹，但保留 data 目录本身，以便跟踪其他文件（如果需要）
-data/voice/
+# 忽略 data 目录下的 其他文件，但保留 初始化资源本身
+data/**
+data/data_manifest.json
 !data/.gitkeep
+!data/game_data/
+!data/third_party/
+!data/third_party/emotion_model_19emo/
+!data/third_party/emotion_model_19emo/.gitkeep
 # 忽略 game_data/backgrounds/ 下的所有内容，但不忽略该目录本身，并保留指定的几个背景图
-game_data/backgrounds/**
-!game_data/backgrounds/
-!game_data/backgrounds/白天.jpeg
-!game_data/backgrounds/夜晚.jpg
+data/game_data/backgrounds/**
+!data/game_data/backgrounds/
+!data/game_data/backgrounds/白天.webp
+!data/game_data/backgrounds/夜晚.webp
+!data/game_data/backgrounds/占卜摊2.webp
+!data/game_data/backgrounds/夕阳.webp
+# 忽略 game_data/characters/ 下的所有内容，但不忽略该目录本身，并保留指定的几个角色图
+data/game_data/characters/**
+!data/game_data/characters/
+!data/game_data/characters/诺一钦灵/
+!data/game_data/characters/诺一钦灵/**
+!data/game_data/characters/风雪/
+!data/game_data/characters/风雪/**
+!data/game_data/characters/DeepSeek/
+!data/game_data/characters/DeepSeek/**
 # 忽略 game_data/musics/ 目录下的所有内容，但保留指定的音效文件
-game_data/musics/
-!game_data/musics/夜晚音效
+data/game_data/musics/**
+!data/game_data/musics/
+!data/game_data/musics/夜晚音效.mp3
+# 忽略 game_data/scripts/ 目录下的所有内容，但保留指定的剧本文件
+data/game_data/scripts/**
+!data/game_data/scripts/
+data/game_data/scripts/character/**
+!data/game_data/scripts/character/诺一钦灵/
+!data/game_data/scripts/character/风雪/
+!data/game_data/scripts/character/DeepSeek/
+!data/game_data/scripts/standalone/
+data/game_data/scripts/standalone/**
+!data/game_data/scripts/character/**
+# Skill Agent 技能库（AI 助手读取的 SKILL.md 技能）
+data/game_data/skills/**
+!data/game_data/skills/
+!data/game_data/skills/**/
+!data/game_data/skills/**/*
 
-
-
+# 插件，仅示例插件保留
+data/plugins/*
+!data/plugins/tavily/
 
 # ============================================================
 #        文档和其他工具 (Documentation & Other Tools)
@@ -131,11 +177,6 @@ game_data/musics/
 CLAUDE.md
 AGENTS.md
 
+# 本地 APK build 路径
+prev-build-*/
 
-
-# ============================================================
-#     开发者个人目录 (Developer Personal Directories)
-# ============================================================
-
-# 风雪
-memory-bank/
